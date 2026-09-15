@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Center Line Punkte Rechner</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f7e6dc; /* Originaler sanfter Farbton */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 16px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.4);
+      padding: 24px 20px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      max-width: 520px;
+      width: 100%;
+    }
+
+    .header-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 4px;
+      text-align: center;
+    }
+
+    .header-sub {
+      font-size: 0.82rem;
+      color: #7f8c8d;
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .rows-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 10px;
+      background: rgba(255, 255, 255, 0.55);
+      border-radius: 10px;
+      transition: opacity 0.2s, background 0.2s;
+    }
+
+    .row.disabled {
+      opacity: 0.45;
+      background: rgba(220, 220, 220, 0.35);
+    }
+
+    /* Schöner Checkbox-Style */
+    .checkbox-wrap {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .checkbox-wrap input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: #3b82f6;
+    }
+
+    /* Textfeld für den Komponentennamen */
+    .name-input {
+      flex: 1;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #232d38;
+      border: 1px solid transparent;
+      background: transparent;
+      padding: 4px 6px;
+      border-radius: 6px;
+      outline: none;
+    }
+
+    .name-input:focus {
+      background: #ffffff;
+      border-color: #93c5fd;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+    }
+
+    /* Zähler-Segment-Display im Stil deines Bildes */
+    .counter-box {
+      display: flex;
+      gap: 3px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .digit-box {
+      background: linear-gradient(180deg, #6c889e 0%, #4b6275 100%);
+      color: #f8fafc;
+      font-size: 1.25rem;
+      font-weight: 700;
+      border-radius: 5px;
+      width: 26px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.4), 0 2px 4px rgba(0,0,0,0.25);
+      border: 1px solid #364857;
+    }
+
+    .num-input-hidden {
+      display: none;
+    }
+
+    /* Zahleneingabe für Klick */
+    .num-input {
+      width: 60px;
+      height: 34px;
+      background: linear-gradient(180deg, #6c889e 0%, #4b6275 100%);
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-align: center;
+      border-radius: 6px;
+      border: 1px solid #364857;
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.3), 0 2px 4px rgba(0,0,0,0.2);
+      outline: none;
+    }
+
+    .num-input:focus {
+      box-shadow: 0 0 0 2px #2563eb;
+    }
+
+    /* Ausblenden der Standard-Pfeile im Input */
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+      opacity: 1;
+    }
+
+    /* Footer mit Summe */
+    .footer {
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 2px dashed rgba(0,0,0,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sum-label {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #2c3e50;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .sum-display {
+      display: flex;
+      gap: 4px;
+    }
+
+    .sum-digit {
+      background: linear-gradient(180deg, #325a7a 0%, #1c3952 100%);
+      color: #ffffff;
+      font-size: 1.5rem;
+      font-weight: 800;
+      border-radius: 6px;
+      min-width: 32px;
+      height: 42px;
+      padding: 0 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.4), 0 3px 6px rgba(0,0,0,0.3);
+      border: 1px solid #14283b;
+    }
+
+    .btn-reset {
+      margin-top: 16px;
+      width: 100%;
+      background: transparent;
+      border: 1px solid #b0bec5;
+      color: #607d8b;
+      padding: 6px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+    .btn-reset:hover {
+      background: rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="header-title">Center Line Punkte</div>
+    <div class="header-sub">Anlagenteile an-/abwählen • Namen & Punkte direkt anpassen</div>
+
+    <div class="rows-container" id="itemsContainer"></div>
+
+    <div class="footer">
+      <div class="sum-label">Aktive Center Line Punkte:</div>
+      <div class="sum-display" id="totalDisplay">
+        <div class="sum-digit">0</div>
+        <div class="sum-digit">0</div>
+      </div>
+    </div>
+
+    <button class="btn-reset" onclick="resetToDefault()">Standardwerte wiederherstellen</button>
+  </div>
+
+  <script>
+    // Standard-Werte aus deinem Foto
+    const defaultData = [
+      { name: "Mediseal.", value: 15, active: true },
+      { name: "Blister Übergabe.", value: 7, active: true },
+      { name: "Booklet Zuführung.", value: 6, active: true },
+      { name: "Applikationen Zuführung.", value: 2, active: true },
+      { name: "Kartonier.", value: 19, active: true },
+      { name: "Seidenader.", value: 4, active: true },
+      { name: "Bündler.", value: 6, active: true },
+      { name: "Endverpacker.", value: 8, active: true }
+    ];
+
+    let items = [];
+
+    // Aus LocalStorage laden oder Standard laden
+    function loadData() {
+      const saved = localStorage.getItem("centerline_app_data");
+      if (saved) {
+        try {
+          items = JSON.parse(saved);
+        } catch(e) {
+          items = JSON.parse(JSON.stringify(defaultData));
+        }
+      } else {
+        items = JSON.parse(JSON.stringify(defaultData));
+      }
+      render();
+    }
+
+    // Speichern im Browser-Speicher
+    function saveData() {
+      localStorage.setItem("centerline_app_data", JSON.stringify(items));
+      calculateTotal();
+    }
+
+    function render() {
+      const container = document.getElementById("itemsContainer");
+      container.innerHTML = "";
+
+      items.forEach((item, index) => {
+        const row = document.createElement("div");
+        row.className = `row ${item.active ? '' : 'disabled'}`;
+        row.id = `row-${index}`;
+
+        row.innerHTML = `
+          <label class="checkbox-wrap" title="Komponente aktivieren/deaktivieren">
+            <input type="checkbox" ${item.active ? 'checked' : ''} onchange="toggleItem(${index}, this.checked)">
+          </label>
+          <input type="text" class="name-input" value="${escapeHtml(item.name)}" 
+                 title="Klicken zum Umbenennen"
+                 onchange="updateName(${index}, this.value)">
+          <input type="number" min="0" max="999" class="num-input" value="${item.value}" 
+                 title="Center Line Punkte eingeben"
+                 onchange="updateValue(${index}, this.value)">
+        `;
+
+        container.appendChild(row);
+      });
+
+      calculateTotal();
+    }
+
+    function toggleItem(index, isChecked) {
+      items[index].active = isChecked;
+      const row = document.getElementById(`row-${index}`);
+      if (isChecked) {
+        row.classList.remove('disabled');
+      } else {
+        row.classList.add('disabled');
+      }
+      saveData();
+    }
+
+    function updateName(index, val) {
+      items[index].name = val;
+      saveData();
+    }
+
+    function updateValue(index, val) {
+      items[index].value = parseInt(val, 10) || 0;
+      saveData();
+    }
+
+    function calculateTotal() {
+      const total = items.reduce((sum, item) => item.active ? sum + (item.value || 0) : sum, 0);
+      const display = document.getElementById("totalDisplay");
+      
+      // Zahlen als zweistellige (oder dreistellige) Blöcke anzeigen
+      const strTotal = total < 10 ? '0' + total : total.toString();
+      
+      display.innerHTML = strTotal
+        .split('')
+        .map(digit => `<div class="sum-digit">${digit}</div>`)
+        .join('');
+    }
+
+    function resetToDefault() {
+      if(confirm("Möchtest du wirklich alle Namen und Zahlen auf den Originalzustand zurücksetzen?")) {
+        items = JSON.parse(JSON.stringify(defaultData));
+        saveData();
+        render();
+      }
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/"/g, '&quot;');
+    }
+
+    // Start
+    loadData();
+  </script>
+</body>
+</html>
