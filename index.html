@@ -119,29 +119,8 @@
       opacity: 1;
     }
 
-    .btn-add {
-      margin-top: 12px;
-      width: 100%;
-      background: rgba(255, 255, 255, 0.7);
-      border: 1px dashed #78909c;
-      color: #37474f;
-      padding: 8px;
-      border-radius: 8px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-
-    .btn-add:hover {
-      background: #ffffff;
-    }
-
     .footer {
-      margin-top: 18px;
+      margin-top: 20px;
       padding-top: 14px;
       border-top: 2px dashed rgba(0,0,0,0.12);
       display: flex;
@@ -202,8 +181,6 @@
 
     <div class="rows-container" id="itemsContainer"></div>
 
-    <button class="btn-add" onclick="addNewItem()">+ Weitere Station hinzufügen</button>
-
     <div class="footer">
       <div class="sum-label">Aktive Punkte:</div>
       <div class="sum-display" id="totalDisplay">
@@ -216,7 +193,6 @@
   </div>
 
   <script>
-    // Standard-Reihenfolge mit GUK. zwischen Booklet und Kartonierer
     const defaultData = [
       { name: "Mediseal.", value: 15, active: true },
       { name: "Blister Übergabe.", value: 7, active: true },
@@ -232,7 +208,7 @@
     let items = [];
 
     function loadData() {
-      const saved = localStorage.getItem("centerline_app_data_v3");
+      const saved = localStorage.getItem("centerline_app_data_v4");
       if (saved) {
         try {
           items = JSON.parse(saved);
@@ -246,7 +222,7 @@
     }
 
     function saveData() {
-      localStorage.setItem("centerline_app_data_v3", JSON.stringify(items));
+      localStorage.setItem("centerline_app_data_v4", JSON.stringify(items));
       calculateTotal();
     }
 
@@ -296,12 +272,6 @@
     function updateValue(index, val) {
       items[index].value = parseInt(val, 10) || 0;
       saveData();
-    }
-
-    function addNewItem() {
-      items.push({ name: "Neue Station.", value: 0, active: true });
-      saveData();
-      render();
     }
 
     function calculateTotal() {
