@@ -209,7 +209,7 @@
     let items = [];
 
     function loadData() {
-      const saved = localStorage.getItem("centerline_app_data_v4");
+      const saved = localStorage.getItem("centerline_app_data_v5");
       if (saved) {
         try {
           items = JSON.parse(saved);
@@ -223,7 +223,7 @@
     }
 
     function saveData() {
-      localStorage.setItem("centerline_app_data_v4", JSON.stringify(items));
+      localStorage.setItem("centerline_app_data_v5", JSON.stringify(items));
       calculateTotal();
     }
 
