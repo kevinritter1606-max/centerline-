@@ -63,6 +63,9 @@
 
     .logo-container {
       margin-bottom: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .header-title {
@@ -215,20 +218,20 @@
     /* --- MOBILE ANPASSUNGEN --- */
     @media (max-width: 480px) {
       body {
-        padding: 8px; /* Weniger Rand außen auf dem Handy */
+        padding: 8px;
       }
       .card {
-        padding: 24px 12px 16px; /* Weniger Rand innen */
+        padding: 24px 12px 16px;
       }
       .row {
         gap: 8px;
         padding: 6px 8px;
       }
       .name-input {
-        font-size: 0.95rem; /* Schriftgröße minimal anpassen */
+        font-size: 0.95rem;
       }
       .num-input {
-        width: 50px; /* Zahlenfeld auf Handys etwas schmaler machen */
+        width: 50px;
       }
     }
   </style>
@@ -237,25 +240,29 @@
 
   <div class="card">
     <div class="header">
-      <!-- Bayer Logo als SVG -->
+      
+      <!-- Modernes Bayer Logo (Vektor-Grafik) -->
       <div class="logo-container">
-        <svg width="56" height="56" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="50" r="48" fill="#0091df" />
-          <circle cx="50" cy="50" r="45" fill="none" stroke="#ffffff" stroke-width="1.5"/>
-          <!-- Vertikal -->
-          <text x="50" y="27" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">B</text>
-          <text x="50" y="41" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">A</text>
-          <!-- Horizontal -->
-          <text x="22" y="55" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">B</text>
-          <text x="36" y="55" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">A</text>
-          <text x="50" y="55" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">Y</text>
-          <text x="64" y="55" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">E</text>
-          <text x="78" y="55" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">R</text>
-          <!-- Vertikal fortsetzung -->
-          <text x="50" y="69" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">E</text>
-          <text x="50" y="83" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">R</text>
+        <svg width="76" height="76" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <!-- Grüner Bogen -->
+          <path d="M 50 4 C 24.6 4 4 24.6 4 50 C 4 60 7.2 69.3 12.6 77 C 8 68.3 5.4 58.3 5.4 48 C 5.4 24 25 4.5 49 4.5 C 64.6 4.5 78.4 12 86 23.5 C 79 11 65.5 4 50 4 Z" fill="#89d329"/>
+          <!-- Blauer Bogen -->
+          <path d="M 50 96 C 75.4 96 96 75.4 96 50 C 96 40 92.8 30.7 87.4 23 C 92 31.7 94.6 41.7 94.6 52 C 94.6 76 75 95.5 51 95.5 C 35.4 95.5 21.6 88 14 76.5 C 21 89 34.5 96 50 96 Z" fill="#0091df"/>
+          <!-- Text -->
+          <g fill="#002855" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="16.5" text-anchor="middle">
+            <text x="50" y="24">B</text>
+            <text x="50" y="40">A</text>
+            <text x="17" y="56.5">B</text>
+            <text x="33.5" y="56.5">A</text>
+            <text x="50" y="56.5">Y</text>
+            <text x="66.5" y="56.5">E</text>
+            <text x="83" y="56.5">R</text>
+            <text x="50" y="73">E</text>
+            <text x="50" y="89">R</text>
+          </g>
         </svg>
       </div>
+
       <div class="header-title">Center Line Punkte</div>
       <div class="header-sub">Anlagenteile an-/abwählen • Namen & Punkte direkt anpassen</div>
     </div>
