@@ -5,64 +5,105 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Center Line Punkte Rechner</title>
   <style>
+    :root {
+      --bayer-blue: #0091df;
+      --bayer-blue-dark: #0073b3;
+      --bayer-green: #89d329;
+      --text-dark: #333333;
+      --text-light: #767676;
+      --bg-color: #f4f6f8;
+      --card-bg: #ffffff;
+      --border-color: #e0e0e0;
+    }
+
     * {
       box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
 
     body {
-      background-color: #f7e6dc;
+      background-color: var(--bg-color);
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
       margin: 0;
       padding: 16px;
+      color: var(--text-dark);
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.4);
-      padding: 24px 20px;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      background: var(--card-bg);
+      padding: 32px 24px 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
       max-width: 520px;
       width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Bayer-Farbverlauf am oberen Rand */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--bayer-blue) 0%, var(--bayer-green) 100%);
+    }
+
+    .header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .logo-container {
+      margin-bottom: 16px;
     }
 
     .header-title {
-      font-size: 1.35rem;
+      font-size: 1.4rem;
       font-weight: 700;
-      color: #2c3e50;
-      margin-bottom: 4px;
+      color: var(--bayer-blue);
+      margin-bottom: 6px;
       text-align: center;
     }
 
     .header-sub {
-      font-size: 0.82rem;
-      color: #7f8c8d;
+      font-size: 0.85rem;
+      color: var(--text-light);
       text-align: center;
-      margin-bottom: 18px;
     }
 
     .rows-container {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
 
     .row {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 6px 10px;
-      background: rgba(255, 255, 255, 0.55);
-      border-radius: 10px;
-      transition: opacity 0.2s, background 0.2s;
+      gap: 12px;
+      padding: 8px 12px;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .row:hover {
+      border-color: #b3d4ee;
+      box-shadow: 0 2px 6px rgba(0, 145, 223, 0.08);
     }
 
     .row.disabled {
-      opacity: 0.45;
-      background: rgba(220, 220, 220, 0.35);
+      opacity: 0.5;
+      background: #fafafa;
     }
 
     .checkbox-wrap {
@@ -72,46 +113,48 @@
     }
 
     .checkbox-wrap input[type="checkbox"] {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       cursor: pointer;
-      accent-color: #3b82f6;
+      accent-color: var(--bayer-blue);
     }
 
     .name-input {
       flex: 1;
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: #232d38;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-dark);
       border: 1px solid transparent;
       background: transparent;
-      padding: 4px 6px;
-      border-radius: 6px;
+      padding: 6px 8px;
+      border-radius: 4px;
       outline: none;
+      transition: border-color 0.2s;
     }
 
     .name-input:focus {
-      background: #ffffff;
-      border-color: #93c5fd;
-      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+      background: #fff;
+      border-color: var(--bayer-blue);
     }
 
     .num-input {
       width: 60px;
-      height: 34px;
-      background: linear-gradient(180deg, #6c889e 0%, #4b6275 100%);
-      color: #ffffff;
-      font-size: 1.2rem;
-      font-weight: 700;
+      height: 36px;
+      background: #f9f9f9;
+      color: var(--text-dark);
+      font-size: 1.1rem;
+      font-weight: 600;
       text-align: center;
-      border-radius: 6px;
-      border: 1px solid #364857;
-      box-shadow: inset 0 1px 2px rgba(255,255,255,0.3), 0 2px 4px rgba(0,0,0,0.2);
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
       outline: none;
+      transition: all 0.2s ease;
     }
 
     .num-input:focus {
-      box-shadow: 0 0 0 2px #2563eb;
+      border-color: var(--bayer-blue);
+      box-shadow: 0 0 0 2px rgba(0, 145, 223, 0.15);
+      background: #fff;
     }
 
     input[type=number]::-webkit-inner-spin-button, 
@@ -120,73 +163,85 @@
     }
 
     .footer {
-      margin-top: 20px;
-      padding-top: 14px;
-      border-top: 2px dashed rgba(0,0,0,0.12);
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
     .sum-label {
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       font-weight: 700;
-      color: #2c3e50;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      color: var(--text-dark);
     }
 
     .sum-display {
-      display: flex;
-      gap: 4px;
-    }
-
-    .sum-digit {
-      background: linear-gradient(180deg, #325a7a 0%, #1c3952 100%);
+      background: var(--bayer-blue);
       color: #ffffff;
       font-size: 1.5rem;
-      font-weight: 800;
-      border-radius: 6px;
-      min-width: 32px;
-      height: 42px;
-      padding: 0 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: inset 0 1px 2px rgba(255,255,255,0.4), 0 3px 6px rgba(0,0,0,0.3);
-      border: 1px solid #14283b;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: 20px;
+      min-width: 60px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 145, 223, 0.3);
     }
 
     .btn-reset {
-      margin-top: 16px;
+      margin-top: 24px;
       width: 100%;
       background: transparent;
-      border: 1px solid #b0bec5;
-      color: #607d8b;
-      padding: 6px;
-      border-radius: 6px;
-      font-size: 0.8rem;
+      border: 1px solid #dcdcdc;
+      color: var(--text-light);
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 500;
       cursor: pointer;
+      transition: all 0.2s ease;
     }
+
     .btn-reset:hover {
-      background: rgba(0,0,0,0.05);
+      background: #f4f6f8;
+      color: var(--text-dark);
+      border-color: #b0b0b0;
     }
   </style>
 </head>
 <body>
 
   <div class="card">
-    <div class="header-title">Center Line Punkte</div>
-    <div class="header-sub">Anlagenteile an-/abwählen • Namen & Punkte direkt anpassen</div>
+    <div class="header">
+      <!-- Bayer Logo als SVG -->
+      <div class="logo-container">
+        <svg width="56" height="56" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="48" fill="#0091df" />
+          <circle cx="50" cy="50" r="45" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+          <!-- Vertikal -->
+          <text x="50" y="27" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">B</text>
+          <text x="50" y="41" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">A</text>
+          <!-- Horizontal -->
+          <text x="22" y="55" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">B</text>
+          <text x="36" y="55" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">A</text>
+          <text x="50" y="55" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">Y</text>
+          <text x="64" y="55" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">E</text>
+          <text x="78" y="55" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">R</text>
+          <!-- Vertikal fortsetzung -->
+          <text x="50" y="69" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">E</text>
+          <text x="50" y="83" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">R</text>
+        </svg>
+      </div>
+      <div class="header-title">Center Line Punkte</div>
+      <div class="header-sub">Anlagenteile an-/abwählen • Namen & Punkte direkt anpassen</div>
+    </div>
 
     <div class="rows-container" id="itemsContainer"></div>
 
     <div class="footer">
       <div class="sum-label">Aktive Punkte:</div>
-      <div class="sum-display" id="totalDisplay">
-        <div class="sum-digit">0</div>
-        <div class="sum-digit">0</div>
-      </div>
+      <div class="sum-display" id="totalDisplay">0</div>
     </div>
 
     <button class="btn-reset" onclick="resetToDefault()">Standardwerte wiederherstellen</button>
@@ -209,7 +264,7 @@
     let items = [];
 
     function loadData() {
-      const saved = localStorage.getItem("centerline_app_data_v5");
+      const saved = localStorage.getItem("centerline_app_data_v6");
       if (saved) {
         try {
           items = JSON.parse(saved);
@@ -223,7 +278,7 @@
     }
 
     function saveData() {
-      localStorage.setItem("centerline_app_data_v5", JSON.stringify(items));
+      localStorage.setItem("centerline_app_data_v6", JSON.stringify(items));
       calculateTotal();
     }
 
@@ -279,12 +334,8 @@
       const total = items.reduce((sum, item) => item.active ? sum + (item.value || 0) : sum, 0);
       const display = document.getElementById("totalDisplay");
       
-      const strTotal = total < 10 ? '0' + total : total.toString();
-      
-      display.innerHTML = strTotal
-        .split('')
-        .map(digit => `<div class="sum-digit">${digit}</div>`)
-        .join('');
+      // Für ein cleanes Design reicht die einfache Zahl, optional mit einer 0 davor bei < 10
+      display.textContent = total < 10 ? '0' + total : total.toString();
     }
 
     function resetToDefault() {
