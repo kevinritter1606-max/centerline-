@@ -68,9 +68,10 @@
       align-items: center;
     }
 
+    /* HIER WIRD DIE GRÖSSE GESTEUERT */
     .logo-container img {
-      width: 72px;
-      height: 72px;
+      width: 120px;  /* Deutlich größer als vorher (72px) */
+      height: 120px;
       object-fit: contain;
     }
 
@@ -245,7 +246,7 @@
 
   <div class="card">
     <div class="header">
-      <!-- Das Bild wird jetzt direkt aus deinem GitHub-Ordner geladen! -->
+      <!-- Dein hochgeladenes Logo -->
       <div class="logo-container">
         <img src="logo.png" alt="Bayer Logo">
       </div>
@@ -280,7 +281,7 @@
     let items = [];
 
     function loadData() {
-      const saved = localStorage.getItem("centerline_app_data_v6");
+      const saved = localStorage.getItem("centerline_app_data_v7");
       if (saved) {
         try {
           items = JSON.parse(saved);
@@ -294,7 +295,7 @@
     }
 
     function saveData() {
-      localStorage.setItem("centerline_app_data_v6", JSON.stringify(items));
+      localStorage.setItem("centerline_app_data_v7", JSON.stringify(items));
       calculateTotal();
     }
 
