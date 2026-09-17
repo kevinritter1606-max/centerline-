@@ -68,9 +68,8 @@
       align-items: center;
     }
 
-    /* HIER WIRD DIE GRÖSSE GESTEUERT */
     .logo-container img {
-      width: 120px;  /* Deutlich größer als vorher (72px) */
+      width: 120px;
       height: 120px;
       object-fit: contain;
     }
@@ -130,23 +129,18 @@
       flex-shrink: 0;
     }
 
-    .name-input {
+    /* Fester Text statt Eingabefeld */
+    .name-text {
       flex: 1;
       min-width: 0;
       font-size: 1rem;
       font-weight: 500;
       color: var(--text-dark);
-      border: 1px solid transparent;
-      background: transparent;
       padding: 6px 8px;
-      border-radius: 4px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .name-input:focus {
-      background: #fff;
-      border-color: var(--bayer-blue);
+      /* Verhindert Zeilenumbrüche, falls das Handy-Display extrem schmal ist */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .num-input {
@@ -233,7 +227,7 @@
         gap: 8px;
         padding: 6px 8px;
       }
-      .name-input {
+      .name-text {
         font-size: 0.95rem;
       }
       .num-input {
@@ -246,12 +240,11 @@
 
   <div class="card">
     <div class="header">
-      <!-- Dein hochgeladenes Logo -->
       <div class="logo-container">
         <img src="logo.png" alt="Bayer Logo">
       </div>
       <div class="header-title">Center Line Punkte</div>
-      <div class="header-sub">Anlagenteile an-/abwählen • Namen & Punkte direkt anpassen</div>
+      <div class="header-sub">Anlagenteile an-/abwählen • Punkte direkt anpassen</div>
     </div>
 
     <div class="rows-container" id="itemsContainer"></div>
@@ -261,7 +254,7 @@
       <div class="sum-display" id="totalDisplay">0</div>
     </div>
 
-    <button class="btn-reset" onclick="resetToDefault()">Standardwerte wiederherstellen</button>
+    <button class="btn-reset" onclick="resetToDefault()">Punkte auf Originalzustand zurücksetzen</button>
   </div>
 
   <script>
@@ -281,7 +274,8 @@
     let items = [];
 
     function loadData() {
-      const saved = localStorage.getItem("centerline_app_data_v7");
+      // Version auf v8 erhöht, damit die festen Namen garantiert sauber geladen werden
+      const saved = localStorage.getItem("centerline_app_data_v8");
       if (saved) {
         try {
           items = JSON.parse(saved);
@@ -295,7 +289,7 @@
     }
 
     function saveData() {
-      localStorage.setItem("centerline_app_data_v7", JSON.stringify(items));
+      localStorage.setItem("centerline_app_data_v8", JSON.stringify(items));
       calculateTotal();
     }
 
@@ -312,9 +306,9 @@
           <label class="checkbox-wrap" title="Komponente aktivieren/deaktivieren">
             <input type="checkbox" ${item.active ? 'checked' : ''} onchange="toggleItem(${index}, this.checked)">
           </label>
-          <input type="text" class="name-input" value="${escapeHtml(item.name)}" 
-                 title="Klicken zum Umbenennen"
-                 onchange="updateName(${index}, this.value)">
+          <!-- Fester Text statt Input-Feld -->
+          <div class="name-text" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div>
+          
           <input type="number" min="0" max="999" class="num-input" value="${item.value}" 
                  title="Punkte eingeben"
                  onchange="updateValue(${index}, this.value)">
@@ -337,11 +331,6 @@
       saveData();
     }
 
-    function updateName(index, val) {
-      items[index].name = val;
-      saveData();
-    }
-
     function updateValue(index, val) {
       items[index].value = parseInt(val, 10) || 0;
       saveData();
@@ -354,7 +343,7 @@
     }
 
     function resetToDefault() {
-      if(confirm("Möchtest du wirklich alle Namen und Zahlen auf den Originalzustand zurücksetzen?")) {
+      if(confirm("Möchtest du wirklich alle Zahlen auf den Originalzustand zurücksetzen?")) {
         items = JSON.parse(JSON.stringify(defaultData));
         saveData();
         render();
