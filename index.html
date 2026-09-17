@@ -68,6 +68,12 @@
       align-items: center;
     }
 
+    .logo-container img {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+    }
+
     .header-title {
       font-size: 1.4rem;
       font-weight: 700;
@@ -218,20 +224,20 @@
     /* --- MOBILE ANPASSUNGEN --- */
     @media (max-width: 480px) {
       body {
-        padding: 8px;
+        padding: 8px; /* Weniger Rand außen auf dem Handy */
       }
       .card {
-        padding: 24px 12px 16px;
+        padding: 24px 12px 16px; /* Weniger Rand innen */
       }
       .row {
         gap: 8px;
         padding: 6px 8px;
       }
       .name-input {
-        font-size: 0.95rem;
+        font-size: 0.95rem; /* Schriftgröße minimal anpassen */
       }
       .num-input {
-        width: 50px;
+        width: 50px; /* Zahlenfeld auf Handys etwas schmaler machen */
       }
     }
   </style>
@@ -240,29 +246,10 @@
 
   <div class="card">
     <div class="header">
-      
-      <!-- Modernes Bayer Logo (Vektor-Grafik) -->
+      <!-- Echtes Bayer Logo als eingebettetes Bild -->
       <div class="logo-container">
-        <svg width="76" height="76" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <!-- Grüner Bogen -->
-          <path d="M 50 4 C 24.6 4 4 24.6 4 50 C 4 60 7.2 69.3 12.6 77 C 8 68.3 5.4 58.3 5.4 48 C 5.4 24 25 4.5 49 4.5 C 64.6 4.5 78.4 12 86 23.5 C 79 11 65.5 4 50 4 Z" fill="#89d329"/>
-          <!-- Blauer Bogen -->
-          <path d="M 50 96 C 75.4 96 96 75.4 96 50 C 96 40 92.8 30.7 87.4 23 C 92 31.7 94.6 41.7 94.6 52 C 94.6 76 75 95.5 51 95.5 C 35.4 95.5 21.6 88 14 76.5 C 21 89 34.5 96 50 96 Z" fill="#0091df"/>
-          <!-- Text -->
-          <g fill="#002855" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="16.5" text-anchor="middle">
-            <text x="50" y="24">B</text>
-            <text x="50" y="40">A</text>
-            <text x="17" y="56.5">B</text>
-            <text x="33.5" y="56.5">A</text>
-            <text x="50" y="56.5">Y</text>
-            <text x="66.5" y="56.5">E</text>
-            <text x="83" y="56.5">R</text>
-            <text x="50" y="73">E</text>
-            <text x="50" y="89">R</text>
-          </g>
-        </svg>
+        <img src="data:image/png;base64,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" alt="Bayer Logo">
       </div>
-
       <div class="header-title">Center Line Punkte</div>
       <div class="header-sub">Anlagenteile an-/abwählen • Namen & Punkte direkt anpassen</div>
     </div>
