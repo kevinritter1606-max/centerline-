@@ -131,7 +131,7 @@
 
     .name-input {
       flex: 1;
-      min-width: 0; /* WICHTIG: Erlaubt dem Textfeld, auf Handys schmaler zu werden */
+      min-width: 0;
       font-size: 1rem;
       font-weight: 500;
       color: var(--text-dark);
@@ -150,7 +150,7 @@
 
     .num-input {
       width: 60px;
-      flex-shrink: 0; /* Verhindert, dass das Zahlenfeld zerquetscht wird */
+      flex-shrink: 0;
       height: 36px;
       background: #f9f9f9;
       color: var(--text-dark);
@@ -221,23 +221,22 @@
       border-color: #b0b0b0;
     }
 
-    /* --- MOBILE ANPASSUNGEN --- */
     @media (max-width: 480px) {
       body {
-        padding: 8px; /* Weniger Rand außen auf dem Handy */
+        padding: 8px;
       }
       .card {
-        padding: 24px 12px 16px; /* Weniger Rand innen */
+        padding: 24px 12px 16px;
       }
       .row {
         gap: 8px;
         padding: 6px 8px;
       }
       .name-input {
-        font-size: 0.95rem; /* Schriftgröße minimal anpassen */
+        font-size: 0.95rem;
       }
       .num-input {
-        width: 50px; /* Zahlenfeld auf Handys etwas schmaler machen */
+        width: 50px;
       }
     }
   </style>
@@ -246,9 +245,9 @@
 
   <div class="card">
     <div class="header">
-      <!-- Offizielles Bayer Logo als externer Link eingebunden -->
+      <!-- Das Bild wird jetzt direkt aus deinem GitHub-Ordner geladen! -->
       <div class="logo-container">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Bayer_Cross.svg" alt="Bayer Logo">
+        <img src="logo.png" alt="Bayer Logo">
       </div>
       <div class="header-title">Center Line Punkte</div>
       <div class="header-sub">Anlagenteile an-/abwählen • Namen & Punkte direkt anpassen</div>
